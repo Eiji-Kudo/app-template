@@ -21,7 +21,7 @@
     "cf:deploy": "node scripts/placeholder-command.mjs root cf:deploy \"Step 9 adds Cloudflare deployment\""
   },
   "engines": {
-    "node": ">=20.11.0",
+    "node": ">=20.19.0",
     "npm": ">=10.0.0"
   },
   "devDependencies": {

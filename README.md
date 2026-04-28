@@ -50,11 +50,13 @@ clone 後 30 分でローカル起動、1 時間で staging URL、1 週間でプ
 npm install
 npm run ci            # lint / typecheck / test / build
 npm run lint          # ESLint
-npm run typecheck     # TypeScript 型チェック
+npm run typecheck     # root TypeScript 型チェック
 npm run test          # Vitest
 npm run build         # workspace build
 npm run format        # Prettier check
 ```
+
+リポジトリ全体の workspace 型チェックは `npm run ci` または `turbo run typecheck` で実行する。
 
 `npm run dev` / `npm run db:migrate` / `npm run cf:deploy` は後続 Step で実体化する。現時点ではテンプレート利用者が次 Step の実装先を確認できる placeholder として用意している。
 
