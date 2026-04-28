@@ -1,0 +1,14 @@
+{
+  "name": "@app-template/api",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node ../../scripts/placeholder-command.mjs @app-template/api dev \"Step 3 adds the Hono Worker\"",
+    "build": "tsc --noEmit -p tsconfig.json",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "vitest run --passWithNoTests",
+    "deploy": "node ../../scripts/placeholder-command.mjs @app-template/api deploy \"Step 9 adds Workers deployment\""
+  }
+}

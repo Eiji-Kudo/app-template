@@ -56,6 +56,7 @@ npm install           # ワークスペース全体の依存をインストー�
 npm run dev           # web と api を同時起動
 
 # 品質チェック / CI
+npm run ci            # lint / typecheck / test / build
 npm run lint          # ESLint
 npm run typecheck     # TypeScript 型チェック
 npm run test          # Vitest
