@@ -11,7 +11,7 @@
   "scripts": {
     "dev": "turbo run dev --parallel",
     "build": "turbo run build",
-    "ci": "npm run lint && npm run typecheck && npm run test && npm run build",
+    "ci": "npm run lint && npm run typecheck && turbo run typecheck test build",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "test": "vitest run --passWithNoTests",
