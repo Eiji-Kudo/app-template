@@ -17,7 +17,8 @@
     "test": "vitest run --passWithNoTests",
     "format": "prettier --check .",
     "format:write": "prettier --write .",
-    "db:migrate": "node scripts/placeholder-command.mjs root db:migrate \"Step 4 adds D1 migrations\"",
+    "db:generate": "npm --workspace @app-template/api run db:generate",
+    "db:migrate": "npm --workspace @app-template/api run db:migrate:local",
     "cf:deploy": "node scripts/placeholder-command.mjs root cf:deploy \"Step 9 adds Cloudflare deployment\""
   },
   "engines": {

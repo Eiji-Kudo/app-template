@@ -1,4 +1,4 @@
 export const schemaWorkspace = {
-  name: "db",
+  name: "api-db",
   step: "Step 4",
 };

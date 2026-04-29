@@ -18,6 +18,6 @@
     "skipLibCheck": true,
     "types": ["vitest/globals"]
   },
-  "include": ["db/**/*.ts", "scripts/**/*.ts", "vitest.config.ts"],
+  "include": ["scripts/**/*.ts", "vitest.config.ts"],
   "exclude": ["node_modules", "dist", "coverage", ".wrangler"]
 }
