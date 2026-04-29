@@ -47,6 +47,7 @@ clone 後 30 分でローカル起動、1 時間で staging URL、1 週間でプ
 ## ルートコマンド
 
 ```bash
+node --version        # 22.x を使用
 npm install
 npm run ci            # lint / typecheck / test / build
 npm run lint          # ESLint

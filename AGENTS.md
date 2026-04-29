@@ -49,6 +49,7 @@ app-template/
 ## ルートで利用する主なコマンド
 
 ```bash
+node --version        # 22.x を使用
 npm install           # ワークスペース全体の依存をインストール
 npm run dev           # web と api を同時起動
 
