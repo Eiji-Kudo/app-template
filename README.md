@@ -44,6 +44,26 @@ clone 後 30 分でローカル起動、1 時間で staging URL、1 週間でプ
 
 ---
 
+## ルートコマンド
+
+```bash
+node --version        # 22.x を使用
+npm install
+npm run ci            # lint / typecheck / test / build
+npm run lint          # ESLint
+npm run typecheck     # root TypeScript 型チェック
+npm run test          # Vitest
+npm run build         # workspace build
+npm run format        # Prettier check
+npm run db:generate   # Drizzle schema から migration SQL を生成（Step 4 で実体化）
+```
+
+リポジトリ全体の workspace 型チェックは `npm run ci` または `turbo run typecheck` で実行する。
+
+`npm run dev` / `npm run db:generate` / `npm run db:migrate` / `npm run cf:deploy` は後続 Step で実体化する。現時点ではテンプレート利用者が次 Step の実装先を確認できる placeholder として用意している。
+
+---
+
 ## コーディング規約（テンプレで強制）
 
 このテンプレで作るアプリは、以下を **ESLint / tsconfig / レビュー** の 3 段で強制する。
@@ -161,12 +181,9 @@ clone 後 30 分でローカル起動、1 時間で staging URL、1 週間でプ
 app-template/
 ├─ apps/
 │  ├─ web/                 # React + TanStack Router + Vite
-│  └─ api/                 # Hono on Workers (DDD レイヤ構成)
+│  └─ api/                 # Hono on Workers (DDD レイヤ構成 / Drizzle schema / migrations)
 ├─ packages/
 │  └─ shared/              # zod schema / AppType / hc クライアント
-├─ db/
-│  ├─ migrations/
-│  └─ schema.ts
 ├─ .claude/
 │  ├─ commands/            # 標準コマンド + db-design / db-migrate / cf-deploy
 │  └─ CLAUDE.md            # テンプレ固有の設計ルール
@@ -183,6 +200,9 @@ app-template/
 
 ```
 apps/api/
+├─ db/
+│  ├─ migrations/          # drizzle-kit generate で生成した SQL
+│  └─ schema.ts            # Drizzle schema（D1 の正）
 ├─ src/
 │  ├─ core/                # ドメイン知識を持たない技術コード（http / db / logging / errors / result 型 / auth ...）
 │  │  ├─ http/             # Hono の env 型 / middleware / 共通レスポンス

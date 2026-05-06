@@ -1,0 +1,40 @@
+{
+  "name": "app-template",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "npm@10.9.2",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "turbo run dev --parallel",
+    "build": "turbo run build",
+    "ci": "npm run lint && npm run typecheck && turbo run typecheck test build",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "vitest run --passWithNoTests",
+    "format": "prettier --check .",
+    "format:write": "prettier --write .",
+    "db:generate": "npm --workspace @app-template/api run db:generate",
+    "db:migrate": "npm --workspace @app-template/api run db:migrate:local",
+    "cf:deploy": "node scripts/placeholder-command.mjs root cf:deploy \"Step 9 adds Cloudflare deployment\""
+  },
+  "engines": {
+    "node": ">=22.12.0 <23",
+    "npm": ">=10.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.25.1",
+    "@types/node": "^22.19.17",
+    "eslint": "^9.25.1",
+    "eslint-config-prettier": "^10.1.2",
+    "globals": "^16.0.0",
+    "prettier": "^3.5.3",
+    "turbo": "^2.5.2",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.31.0",
+    "vitest": "^3.1.2"
+  }
+}

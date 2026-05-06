@@ -1,0 +1,16 @@
+{
+  "name": "@app-template/api",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node ../../scripts/placeholder-command.mjs @app-template/api dev \"Step 3 adds the Hono Worker\"",
+    "build": "tsc --noEmit -p tsconfig.json",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "vitest run --passWithNoTests",
+    "db:generate": "node ../../scripts/placeholder-command.mjs @app-template/api db:generate \"Step 4 adds drizzle-kit generate from apps/api/db/schema.ts\"",
+    "db:migrate:local": "node ../../scripts/placeholder-command.mjs @app-template/api db:migrate:local \"Step 4 adds wrangler d1 migrations apply --local from apps/api/db/migrations\"",
+    "deploy": "node ../../scripts/placeholder-command.mjs @app-template/api deploy \"Step 9 adds Workers deployment\""
+  }
+}

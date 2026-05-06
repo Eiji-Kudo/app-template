@@ -36,7 +36,8 @@ flowchart TB
 
 ### Step 1. repo 骨組み
 
-- `apps/`, `packages/`, `db/`, `.claude/`, `.github/workflows/`, `scripts/` を作成
+- `apps/`, `packages/`, `.claude/`, `.github/workflows/`, `scripts/` を作成
+- `apps/api/db/schema.ts` と `apps/api/db/migrations/` の置き場を作成
 - monorepo（`npm workspaces` / Turborepo）構成
 - `tsconfig.json` ベース（`strict: true`, `noUncheckedIndexedAccess: true`）
 - ESLint / Prettier / `.editorconfig` / `.gitignore`
@@ -75,9 +76,9 @@ flowchart TB
 ### Step 4. D1 + ORM + migrations
 
 - ORM（Drizzle 想定）を導入
-- `db/schema.ts` に `items`（id, name, image_key, created_at, updated_at）
-- `db/migrations/0001_init.sql` を生成
-- `npm run db:migrate:local` で `wrangler d1 migrations apply --local`
+- `apps/api/db/schema.ts` に `items`（id, name, image_key, created_at, updated_at）
+- `drizzle-kit generate` で `apps/api/db/migrations/0001_init.sql` を生成
+- `npm run db:migrate:local` で `wrangler d1 migrations apply --local` を実行
 - `wrangler.toml` に `[[d1_databases]]` binding
 - repository に Drizzle で実 CRUD を実装
 
@@ -104,7 +105,7 @@ flowchart TB
 
 ### Step 7. 認証（Better Auth）
 
-- Better Auth を `apps/api` に組み込み、`users` / `sessions` を `db/schema.ts` に追加、`/api/auth/*` を生やす
+- Better Auth を `apps/api` に組み込み、`users` / `sessions` を `apps/api/db/schema.ts` に追加、`/api/auth/*` を生やす
 - フロントは `hc` クライアント経由でセッションを取得し、`useQuery` で current user を扱う
 - 認可済みルートは Hono middleware でセッション検証
 
@@ -129,7 +130,7 @@ flowchart TB
 **in-memory test DB の作り方**
 
 - `apps/api/test/helpers/createTestDb.ts`
-  - `better-sqlite3(':memory:')` で SQLite を立て、Drizzle の `migrate()` で `db/migrations/` を適用
+  - `better-sqlite3(':memory:')` で SQLite を立て、Drizzle の `migrate()` で `apps/api/db/migrations/` を適用
   - 戻り値は `{ db, dbClient }` のセット
 - `beforeEach` で毎回新しい DB を作り、テスト間の汚染をゼロにする
 - `app.request('/api/items', { method: 'POST', ... })` のような呼び方で、実 Hono アプリを通す
@@ -174,9 +175,9 @@ flowchart TB
 
 新規コマンドを実装:
 
-- `db-design`: 入力（自然言語の機能要件）→ 出力（テーブル一覧 / Mermaid ER / 型・インデックス案 / migration draft / `db/schema.ts` 追記 diff）
+- `db-design`: 入力（自然言語の機能要件）→ 出力（テーブル一覧 / Mermaid ER / 型・インデックス案 / migration draft / `apps/api/db/schema.ts` 追記 diff）
   - 強制ルール: 物理 vs 論理削除を必ず確認 / `created_at` / `updated_at` 必須 / SQLite 制約（FK / Boolean = INTEGER / JSON 扱い）/ 100 行超は分割提案
-- `db-migrate`: `wrangler d1 migrations create / apply` のラッパ。local / staging 差分を踏まえた手順生成
+- `db-migrate`: `drizzle-kit generate` と `wrangler d1 migrations apply` のラッパ。local / staging 差分を踏まえた手順生成
 - `cf-deploy`: Pages / Workers デプロイ前の env / D1 / R2 binding 整合性チェック
 
 `.claude/CLAUDE.md` に **テンプレ固有のルールのみ** 記述:
@@ -184,7 +185,7 @@ flowchart TB
 - file-based routing でルートを足すルール
 - Hono ルート追加時に `packages/shared` の zod スキーマと型を必ず更新
 - DDD レイヤの責務（domains / repositories / queries / services / handlers）
-- D1 マイグレーションは `db/migrations/` 経由で `wrangler` を通す
+- D1 マイグレーションは Drizzle schema から `apps/api/db/migrations/` に生成し、`wrangler` を通して適用する
 - グローバルな汎用ルール（コメント方針等）は個人 `~/.claude/CLAUDE.md` に委ね、ここには重複させない
 
 完了基準: `claude` 起動時に repo ローカルコマンドが認識され、`db-design` が動く。

@@ -35,32 +35,32 @@ description: app-template リポジトリで作業するエージェント・開
 app-template/
 ├─ apps/
 │  ├─ web/           # React + TanStack Router + Vite
-│  └─ api/           # Hono on Workers（DDD レイヤ構成）
+│  └─ api/           # Hono on Workers（DDD レイヤ構成 / Drizzle schema / migrations）
 ├─ packages/
 │  └─ shared/        # zod schema / AppType / hc クライアント
-├─ db/
-│  ├─ migrations/
-│  └─ schema.ts
 ├─ docs/             # 実装計画・ADR・ガイド
 ├─ scripts/
 └─ .github/workflows/
 ```
 
-- 現状はテンプレ整備フェーズで、`apps/` / `packages/` / `db/` は未生成。生成順とマイルストーンは [`docs/template-plan.md`](./docs/template-plan.md) を参照してください。
+- D1 / Drizzle は `apps/api/db/schema.ts` を正とし、migration は Drizzle から `apps/api/db/migrations/` に生成します。
 - ドメインごとの詳細ガイドは、各ディレクトリができ次第 `apps/api/AGENTS.md` / `apps/web/AGENTS.md` として追加し、ここからリンクします。
 
 ## ルートで利用する主なコマンド
 
 ```bash
+node --version        # 22.x を使用
 npm install           # ワークスペース全体の依存をインストール
 npm run dev           # web と api を同時起動
 
 # 品質チェック / CI
+npm run ci            # lint / typecheck / test / build
 npm run lint          # ESLint
 npm run typecheck     # TypeScript 型チェック
 npm run test          # Vitest
 
 # Cloudflare
+npm run db:generate   # Drizzle schema から migration SQL を生成
 npm run db:migrate    # D1 マイグレーション適用
 npm run cf:deploy     # Pages / Workers デプロイ
 ```
